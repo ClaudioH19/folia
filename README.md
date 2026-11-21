@@ -1,14 +1,25 @@
-# Diarios de proyectos
+<h1 align="center">Diarios de proyectos</h1>
 
-Una biblioteca local de manuales interactivos. Entra en una sala 3D, elige un libro y encuentra la receta que corresponde a tu situación. La skill aporta la interfaz y las primitivas para que el agente se concentre en escribir pasos, diagramas y páginas de consulta.
+<p align="center">Manuales por situación en una biblioteca 3D que funciona en local.</p>
 
-![Portada de Manuales, un libro de cuero verde delante de la sala de lectura](docs/portada.webp)
+<p align="center">
+  <a href="#probar-el-diario"><img src="./docs/diario-ejemplo.webp" width="900" alt="Diario abierto con la guía de consulta a la izquierda y los pasos para abrir un libro a la derecha"></a>
+</p>
 
-## Demo del diario
+<p align="center">
+  <a href="#abrir-la-colección">Abrir la colección</a> ·
+  <a href="#instalar-la-skill-en-un-comando">Instalar la skill</a> ·
+  <a href="./_motor/REGLAS-DEL-DIARIO.md">Reglas de redacción</a>
+</p>
 
-![Demostración animada: portada, guía de consulta y paso de páginas de una receta](https://raw.githubusercontent.com/ClaudioH19/diarios-de-proyectos/main/docs/demo-diario.gif)
+La skill aporta el lector, la biblioteca y las primitivas. Codex o Claude Code pueden concentrarse en convertir el material de un proyecto en recetas, comandos y diagramas. El lector elige la situación que le interesa y puede destacar texto o pegar pósits mientras consulta el diario.
 
-La grabación abre la guía de consulta, elige una situación y hojea la receta. Puedes probar esos mismos pasos con el [ejemplo HTML](./docs/ejemplo.html) en el navegador desde la carpeta del repositorio. La definición editable está en `diarios/diario-de-proyecto/diario.mjs`.
+## Probar el diario
+
+Abre [`docs/ejemplo.html`](./docs/ejemplo.html) en tu navegador desde una copia del repositorio. En la guía de consulta, elige **Tengo el manual en otro proyecto y quiero añadirlo al estante** para recorrer una receta completa.
+
+- [Ver cómo se hojea el diario](https://github.com/ClaudioH19/diarios-de-proyectos/blob/main/docs/demo-diario.gif)
+- [Leer la definición editable del ejemplo](https://github.com/ClaudioH19/diarios-de-proyectos/blob/main/diarios/diario-de-proyecto/diario.mjs)
 
 ## Abrir la colección
 
@@ -29,11 +40,7 @@ Abre [Manuales en localhost](http://127.0.0.1:4317/manuales/). El servidor guard
 
 Consulta las [reglas editoriales y las primitivas](./_motor/REGLAS-DEL-DIARIO.md) y el [diario de ejemplo](./_motor/plantilla/diario.mjs).
 
-### Crear un diario desde otro proyecto
-
-La carpeta abierta en el agente es el **proyecto fuente**. La **colección de destino** es la que contiene `_motor/` y `diarios/`. El agente lee la fuente y crea el diario en la colección.
-
-### Instalar la skill en un comando
+## Instalar la skill en un comando
 
 Pega el bloque completo en PowerShell. Requiere Git y Node.js 18 o posterior. Instala la skill con el generador, el lector y sus recursos para ambos agentes.
 
@@ -60,6 +67,10 @@ Repite el comando para actualizar. Si ya tienes el repositorio clonado, ejecuta 
 | --- | --- | --- |
 | Codex | `~/.agents/skills/diario-de-proyecto/` | `$diario-de-proyecto` |
 | Claude Code | `~/.claude/skills/diario-de-proyecto/` | `/diario-de-proyecto` |
+
+### Crear un diario desde otro proyecto
+
+La carpeta abierta en el agente es el **proyecto fuente**. La **colección de destino** es la que contiene `_motor/` y `diarios/`. El agente lee la fuente y crea el diario en la colección.
 
 Abre una sesión en el otro proyecto, invoca la skill y pide algo así:
 
