@@ -1,0 +1,15 @@
+.manuales/
+.obsidian/
+.agents/skills/diario-de-proyecto/assets/base/
+_motor/_anterior/
+_plantilla/
+graphify-out/
+notas/graphify/
+assets/three-r170.min.js
+docs/portada.webp
+docs/diario-ejemplo.webp
+docs/ejemplo.html
+index.html
+diarios/*/manual.html
+diarios/*/configuracion/
+*.zip

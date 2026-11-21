@@ -1,0 +1,5 @@
+{
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative",
+  "userIgnoreFilters": [".manuales/", "graphify-out/", ".agents/skills/diario-de-proyecto/assets/base/", "_motor/_anterior/"]
+}

@@ -1,0 +1,12 @@
+/.manuales/
+/.alta-diario.lock
+/.nuevo-*/
+/graphify-out/
+/notas/graphify/
+/.obsidian/workspace*.json
+/.obsidian/plugins/
+/.claude/settings.local.json
+/diario-de-proyecto.zip
+/diarios/*/manual.html
+/_plantilla/
+/index.html
