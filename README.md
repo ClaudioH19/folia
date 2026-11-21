@@ -1,4 +1,4 @@
-<h1 align="center">Diarios de proyectos</h1>
+<h1 align="center">Folia · Diarios de proyectos</h1>
 
 <p align="center">Manuales por situación en una biblioteca 3D que funciona en local.</p>
 
@@ -18,8 +18,8 @@ La skill aporta el lector, la biblioteca y las primitivas. Codex o Claude Code p
 
 Abre [`docs/ejemplo.html`](./docs/ejemplo.html) en tu navegador desde una copia del repositorio. En la guía de consulta, elige **Tengo el manual en otro proyecto y quiero añadirlo al estante** para recorrer una receta completa.
 
-- [Ver cómo se hojea el diario](https://github.com/ClaudioH19/diarios-de-proyectos/blob/main/docs/demo-diario.gif)
-- [Leer la definición editable del ejemplo](https://github.com/ClaudioH19/diarios-de-proyectos/blob/main/diarios/diario-de-proyecto/diario.mjs)
+- [Ver cómo se hojea el diario](https://github.com/ClaudioH19/folia/blob/main/docs/demo-diario.gif)
+- [Leer la definición editable del ejemplo](https://github.com/ClaudioH19/folia/blob/main/diarios/diario-de-proyecto/diario.mjs)
 
 ## Abrir la colección
 
@@ -47,9 +47,9 @@ Pega el bloque completo en PowerShell. Requiere Git y Node.js 18 o posterior. In
 ```powershell
 & {
   $temporal = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
-  $copiaDiarios = Join-Path $temporal ("diarios-skill-" + [guid]::NewGuid())
+  $copiaDiarios = Join-Path $temporal ("folia-skill-" + [guid]::NewGuid())
   try {
-    git clone --depth 1 https://github.com/ClaudioH19/diarios-de-proyectos.git $copiaDiarios
+    git clone --depth 1 https://github.com/ClaudioH19/folia.git $copiaDiarios
     if ($LASTEXITCODE -ne 0) { throw 'No se pudo clonar el repositorio de la skill.' }
     node (Join-Path $copiaDiarios '.agents/skills/diario-de-proyecto/scripts/instalar.mjs')
     if ($LASTEXITCODE -ne 0) { throw 'No se pudo instalar la skill.' }
