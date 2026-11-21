@@ -4,11 +4,11 @@ Una biblioteca local de manuales interactivos. Entra en una sala 3D, elige un li
 
 ![Portada de Manuales, un libro de cuero verde delante de la sala de lectura](docs/portada.webp)
 
-## La colección, explicada como diario
+## Demo del diario
 
-<a href="./docs/ejemplo.html"><img src="./docs/diario-ejemplo.webp" alt="Diario de la propia colección, abierto en la guía de consulta por situaciones"></a>
+![Demostración animada: portada, guía de consulta y paso de páginas de una receta](https://raw.githubusercontent.com/ClaudioH19/diarios-de-proyectos/main/docs/demo-diario.gif)
 
-El ejemplo explica cómo abrir la sala, crear un diario desde otro proyecto y actualizarlo. Abre el [ejemplo HTML](./docs/ejemplo.html) en el navegador desde la carpeta del repositorio. En la colección original, su definición editable está en `diarios/diario-de-proyecto/diario.mjs`.
+La grabación abre la guía de consulta, elige una situación y hojea la receta. Puedes probar esos mismos pasos con el [ejemplo HTML](./docs/ejemplo.html) en el navegador desde la carpeta del repositorio. La definición editable está en `diarios/diario-de-proyecto/diario.mjs`.
 
 ## Abrir la colección
 
@@ -35,7 +35,7 @@ La carpeta abierta en el agente es el **proyecto fuente**. La **colección de de
 
 ### Instalar la skill en un comando
 
-Pega el bloque completo en PowerShell. Requiere Git, Node.js 18 o posterior y una cuenta con acceso al repositorio privado. Instala la skill con el generador, el lector y sus recursos para ambos agentes.
+Pega el bloque completo en PowerShell. Requiere Git y Node.js 18 o posterior. Instala la skill con el generador, el lector y sus recursos para ambos agentes.
 
 ```powershell
 & {
