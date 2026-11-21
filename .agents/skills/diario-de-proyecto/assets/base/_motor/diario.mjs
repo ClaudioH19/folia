@@ -89,7 +89,8 @@ export function construirDiario(def, raiz = '..') {
     if (p.listo?.length) o += checklistHtml(p.listo, 'Listo cuando…', h);
     return o + '</section>';
   }
-  const cmdHtml = (c, titulo = 'Terminal') => `<div class="cmd"><header><span>${esc(titulo)}</span><button type="button" data-copiar>Copiar</button></header><pre>${esc(c)}</pre></div>`;
+  const botonCopiar = `<button type="button" class="copiar" data-copiar aria-label="Copiar código" title="Copiar código">${ico('copiar', ' class="copia-normal"')}${ico('check', ' class="copia-ok"')}${ico('alerta', ' class="copia-error"')}</button>`;
+  const cmdHtml = (c, titulo = 'Terminal', clase = 'cmd') => `<div class="${clase}"><header><span>${esc(titulo)}</span>${botonCopiar}</header><pre>${esc(c)}</pre></div>`;
   const avisoHtml = (tipo, html) => `<div class="aviso${tipo === 'ojo' ? ' ojo' : tipo === 'alerta' ? ' alerta' : ''}">${html}</div>`;
 
   function bloque(b, h) {
@@ -102,7 +103,7 @@ export function construirDiario(def, raiz = '..') {
       case 'nota': return `<aside class="${cl} nota-mano">${b.html}</aside>`;
       case 'cita': return `<blockquote class="${cl} cita">${b.html}${b.autor ? `<cite>— ${esc(b.autor)}</cite>` : ''}</blockquote>`;
       case 'orn': return `<div class="${cl} orn" aria-hidden="true"><span></span></div>`;
-      case 'codigo': return `<div class="${cl} cmd"><header><span>${esc(b.titulo)}</span><button type="button" data-copiar>Copiar</button></header><pre>${esc(b.c)}</pre></div>`;
+      case 'codigo': return cmdHtml(b.c, b.titulo, `${cl} cmd`);
       case 'checklist': return checklistHtml(b.items, b.titulo, h, `${cl} listo`);
       case 'tabla': return `<div class="${cl} tabla"><table><thead><tr>${b.cab.map((x) => `<th>${x}</th>`).join('')}</tr></thead><tbody>${b.filas.map((f) => `<tr>${f.map((x) => `<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
       case 'diagrama': {
@@ -248,6 +249,7 @@ ${DEFS}
 <nav class="pestanas-personales" aria-label="Páginas con pósits" hidden></nav>
 </div></div>
 <span class="posicion solo-lector" aria-live="polite">Página 1 de ${N}</span>
+<span class="solo-lector" id="estado-copia" role="status"></span>
 <div class="aviso-lector" role="status" hidden></div>
 <script type="application/json" id="datos-simuladores">${json(ctx.sims)}</script>
 <script type="application/json" id="datos-iconos">${json(iconosSim)}</script>

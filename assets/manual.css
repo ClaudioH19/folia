@@ -184,9 +184,13 @@ ol.lista li::marker{font:800 .85em var(--mono);color:var(--gris)}
 .donde.opc{border-style:dashed}
 .tiempo{font:700 .74rem var(--mono);color:var(--gris);margin-left:auto}
 .cmd{margin:12px 0;border:1.5px solid var(--tinta);border-radius:10px;overflow:hidden;background:var(--suave)}
-.cmd header{display:flex;justify-content:space-between;align-items:center;padding:5px 8px 5px 14px;font:800 .68rem var(--sans);letter-spacing:.1em;text-transform:uppercase;border-bottom:1.5px solid var(--tinta);background:var(--carta)}
-.cmd button{all:unset;cursor:pointer;font:700 .72rem var(--sans);padding:2px 12px;border-radius:99px;border:1.5px solid var(--tinta);transition:background .2s,color .2s}
-.cmd button:hover,.cmd button.ok{background:var(--tinta);color:var(--papel)}
+.cmd header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 6px 2px 14px;font:800 .68rem var(--sans);letter-spacing:.1em;text-transform:uppercase;border-bottom:1.5px solid var(--tinta);background:var(--carta)}
+.cmd button{all:unset;cursor:pointer;border-radius:6px}
+.cmd button:hover,.cmd button:focus-visible,.cmd button[data-estado-copia]{background:var(--tinta);color:var(--papel)}
+.cmd button:focus-visible{outline:2px solid var(--tinta);outline-offset:1px}
+.cmd .copiar{flex:none;display:grid;place-items:center;width:28px;height:28px}
+.cmd .copiar svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:none}
+.cmd .copiar:not([data-estado-copia]) .copia-normal,.cmd .copiar[data-estado-copia="ok"] .copia-ok,.cmd .copiar[data-estado-copia="error"] .copia-error{display:block}
 .cmd pre{margin:0;padding:10px 14px;overflow-x:auto;font:.76rem/1.55 var(--mono);white-space:pre;color:var(--tinta)}
 .listo{margin:16px 0 4px;border:1.5px solid var(--tinta);border-radius:10px;padding:11px 16px;background:repeating-linear-gradient(135deg,var(--carta) 0 9px,#f0e2bc 9px 10px)}
 .listo h4{margin:0 0 6px;font:800 .72rem var(--sans);letter-spacing:.14em;text-transform:uppercase}

@@ -20,16 +20,46 @@
   function icono(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONOS[n] || '') + '</svg>'; }
 
   // ───────── copiar comandos ─────────
-  function copiar(texto, boton) {
-    function listo() { boton.textContent = '✓ Copiado'; boton.classList.add('ok'); setTimeout(function () { boton.textContent = 'Copiar'; boton.classList.remove('ok'); }, 1600); }
-    function plan() {
-      var ta = document.createElement('textarea'); ta.value = texto; ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); listo(); } catch (e) { /* nada */ } document.body.removeChild(ta);
+  async function copiar(texto) {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(texto);
+        return true;
+      }
+    } catch (e) { /* El portapapeles puede requerir permisos. */ }
+    const foco = document.activeElement;
+    const campo = document.createElement('textarea');
+    campo.value = texto;
+    campo.style.position = 'fixed';
+    campo.style.opacity = '0';
+    document.body.appendChild(campo);
+    campo.select();
+    try {
+      return document.execCommand('copy');
+    } catch (e) {
+      return false;
+    } finally {
+      campo.remove();
+      foco?.focus({ preventScroll: true });
     }
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(listo, plan); else plan();
   }
-  $$('[data-copiar]').forEach(function (b) {
-    b.addEventListener('click', function () { var pre = $('pre', b.closest('.cmd')); if (pre) copiar(pre.textContent, b); });
+  const estadoCopia = $('#estado-copia');
+  $$('[data-copiar]').forEach(function (boton) {
+    let restaurar;
+    boton.addEventListener('click', async function () {
+      const pre = $('pre', boton.closest('.cmd'));
+      if (!pre) return;
+      const copiado = await copiar(pre.textContent);
+      const mensaje = copiado ? 'Código copiado' : 'No se pudo copiar el código';
+      clearTimeout(restaurar);
+      boton.dataset.estadoCopia = copiado ? 'ok' : 'error';
+      boton.title = mensaje;
+      if (estadoCopia) estadoCopia.textContent = mensaje;
+      restaurar = setTimeout(function () {
+        delete boton.dataset.estadoCopia;
+        boton.title = 'Copiar código';
+      }, 1600);
+    });
   });
 
   // ───────── marcas «listo cuando…» (se conservan en este navegador) ─────────

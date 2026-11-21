@@ -6,6 +6,7 @@ export const ICONOS = {
     indice: '<path d="M8 6h12M8 12h10M8 18h12"/><circle cx="4" cy="6" r=".8"/><circle cx="4" cy="12" r=".8"/><circle cx="4" cy="18" r=".8"/>',
     anterior: '<path d="m11 5-7 7 7 7M5 12h15"/>',
     siguiente: '<path d="m13 5 7 7-7 7m6-7H4"/>',
+    copiar: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
     subrayado: '<path d="m9 14 7.8-9.8a1.4 1.4 0 0 1 2-.2l1.4 1.2a1.4 1.4 0 0 1 .2 2L12 16.7l-4.7 1.1zM15 6.5l3.5 3M3 21h15"/>',
     notaPersonal: '<path d="M16 8V4H4v16h8M7 8h5m-5 4h3m4.2 7.7-3 .6.8-3 6.7-7.2 2.3 2.1zm3-8 2.3 2.1"/>',
     mano: '<path d="M7.5 13V6.8a1.4 1.4 0 0 1 2.8 0v4.4-7.1a1.4 1.4 0 0 1 2.8 0v7-6a1.4 1.4 0 0 1 2.8 0v6.5-4.2a1.35 1.35 0 0 1 2.7 0V14c0 4.6-2.5 7-6.5 7-2.3 0-3.8-1-5.2-2.8l-3.6-5a1.45 1.45 0 0 1 2.2-1.9z"/>',
