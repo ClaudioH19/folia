@@ -23,22 +23,19 @@ export default {
       pasos: [
         {
           titulo: 'Inicia el servidor de la colección', donde: 'equipo',
-          resumen: 'Ejecuta el comando y deja abierta esa terminal mientras lees. Si ya tienes esta colección en marcha, usa la dirección que muestra su terminal.',
+          resumen: 'Ejecuta el comando, deja abierta la terminal y abre la dirección que imprime. El puerto habitual es 4317. Si ya tienes esta colección en marcha, usa su dirección.',
           cmds: [{ t: 'Desde la colección', c: 'node _motor/servir.mjs' }],
           puntos: ['Si el puerto pertenece a otra colección, ejecuta <code>node _motor/servir.mjs 4318</code> y abre la dirección que imprima la consola.'],
           aviso: { tipo: 'info', texto: 'Si solo quieres leer el HTML, abre <code>index.html</code> en el navegador y sigue desde la entrada de la sala.' },
-          listo: ['La consola muestra la dirección de Manuales, por defecto <code>http://127.0.0.1:4317/manuales/</code>, o ya ves la colección abierta en el navegador.'],
         },
         {
           titulo: 'Entra en la sala de lectura', donde: 'equipo',
           resumen: 'En la dirección local, pulsa <strong>Entrar a la sala</strong> en la portada <strong>Manuales</strong>. Si el navegador muestra una lista de libros, puedes elegir el título directamente.',
-          listo: ['Ves la estantería o la lista de títulos de la colección.'],
         },
         {
           titulo: 'Abre el libro por su título', donde: 'equipo',
           resumen: 'Apunta al lomo y haz clic cuando aparezca el título que buscas. Para abrir este libro, busca <strong>Diario de proyecto</strong>.',
           puntos: ['Con teclado, usa Tab hasta enfocar el libro y pulsa Enter.', 'En una pantalla táctil, toca el lomo y pulsa <strong>Abrir diario</strong>.'],
-          listo: ['La portada del libro elegido está a la vista. La de este volumen dice «Cómo leer y escribir un diario de proyecto».'],
         },
       ],
       final: 'Libro abierto', finalTexto: 'El atajo <strong>Volver a la sala</strong> te devuelve al estante para elegir otro título.',
@@ -50,35 +47,37 @@ export default {
       pasos: [
         {
           titulo: 'Abre la skill desde el proyecto de origen', donde: 'equipo',
-          resumen: 'Abre Codex o Claude Code en el proyecto cuyo manual quieres documentar. Si instalaste la skill en tu carpeta personal, invoca <code>$diario-de-proyecto</code> en Codex o <code>/diario-de-proyecto</code> en Claude Code.',
-          listo: ['El agente reconoce la skill y puede leer la documentación del proyecto abierto.'],
+          resumen: 'Abre Codex o Claude Code en el proyecto que quieres documentar. Invoca <code>$diario-de-proyecto</code> en Codex o <code>/diario-de-proyecto</code> en Claude Code.',
+          puntos: ['Si falta la skill, ejecuta este comando desde la colección que la contiene y abre una sesión nueva en el proyecto de origen. El README incluye la instalación desde GitHub.'],
+          cmds: [{ t: 'Desde la colección de la skill', c: 'node .agents/skills/diario-de-proyecto/scripts/instalar.mjs' }],
         },
         {
           titulo: 'Crea el libro en la colección de destino', donde: 'equipo',
-          resumen: 'Ejecuta el comando desde el proyecto externo. Indica la carpeta donde instalaste la skill y la ruta completa de la colección de destino. Conserva las comillas si hay espacios.',
+          resumen: 'Desde el proyecto externo, indica la carpeta donde instalaste la skill y la ruta completa de la colección. La consola imprime la ruta del archivo que vas a editar.',
           cmds: [{ t: 'Desde el proyecto de origen', c: 'node "<ruta-a-la-skill>/scripts/nuevo.mjs" "<ruta-de-la-coleccion>" huerto' }],
           aviso: { tipo: 'info', texto: 'Si el libro ya existe y quieres revisarlo, sigue la receta <a href="#actualizar-diario">Actualiza una receta del diario</a>.' },
-          listo: ['La consola indica qué archivo editar. Su ruta termina en <code>diarios/huerto/diario.mjs</code> dentro de la colección elegida.'],
         },
         {
           titulo: 'Escribe la primera receta', donde: 'equipo',
           resumen: 'Sustituye el ejemplo de <code>diarios/huerto/diario.mjs</code> por una tarea del manual de origen. Puedes pedírselo a Codex desde el proyecto indicando la fuente y la ruta de destino.',
-          puntos: ['Pon el nombre del proyecto en <code>marca</code> y el propósito del libro en <code>titulo</code>. Conserva el <code>slug</code> que creó el comando.', 'Describe el problema del lector en <code>situaciones</code>. Haz coincidir su <code>cap</code> con el <code>id</code> de una receta <code>d.pasos</code>.', 'Comprueba las acciones con la fuente. En cada paso indica qué hacer y qué señal permite marcar «Listo cuando…».'],
-          listo: ['La situación apunta a la receta por su identificador y el último paso nombra un resultado que el lector puede observar.'],
+          puntos: ['Pon el nombre del proyecto en <code>marca</code> y el propósito del libro en <code>titulo</code>. Conserva el <code>slug</code> que creó el comando.', 'Describe el problema del lector en <code>situaciones</code>. Haz coincidir su <code>cap</code> con el <code>id</code> de una receta <code>d.pasos</code>.', 'Ordena las acciones según el manual o el código. Junto a una acción, indica qué salida observar si de ella depende el paso siguiente.'],
         },
         {
           titulo: 'Compila el nuevo diario', donde: 'equipo',
           resumen: 'Abre la terminal en la colección de destino y usa el mismo nombre que elegiste al crear el libro. El motor genera el HTML y actualiza el estante.',
           cmds: [{ t: 'Desde la colección de destino', c: 'node _motor/construir.mjs huerto' }],
-          listo: ['La consola marca con ✓ el manual de huerto y la estantería. Has resuelto los errores y revisado los avisos que hayan aparecido.'],
         },
         {
           titulo: 'Prueba la entrada de la guía', donde: 'equipo',
           resumen: 'Abre el nuevo libro <a href="#abrir-sala">desde la sala</a>. En la guía de consulta, elige la situación que acabas de escribir y sigue un paso desde el resumen.',
-          listo: ['El lomo lleva a tu libro y la situación lleva a una hoja donde puedes leer la acción y su «Listo cuando…».'],
         },
       ],
-      final: 'Primera receta disponible', finalTexto: 'Ya puedes llevar al lector desde el problema que reconoce hasta una acción que puede comprobar.',
+      final: 'Primera receta disponible',
+      resumenFinal: [
+        'El proyecto fuente respalda los pasos. La colección guarda el libro y sus recursos.',
+        'Si el agente no puede escribir en la colección, autoriza esa carpeta para guardar la edición.',
+        'Cuando cambie el procedimiento, vuelve a <a href="#actualizar-diario">la receta de actualización</a> para conservar los enlaces del libro.',
+      ],
     }),
     d.pasos({
       id: 'actualizar-diario', posit: 'Actualizar', etiqueta: 'Nueva edición', titulo: 'Actualiza una receta del diario',
@@ -88,24 +87,20 @@ export default {
         {
           titulo: 'Localiza el paso que cambió', donde: 'equipo',
           resumen: 'Sigue la situación desde la guía y compara el paso con el manual o el código vigente del proyecto.',
-          listo: ['Puedes señalar el título de la hoja, la instrucción que ha caducado y el resultado que ahora debe ver el lector.'],
         },
         {
           titulo: 'Corrige la hoja en su definición', donde: 'equipo',
-          resumen: 'Edita el paso en <code>diarios/&lt;slug&gt;/diario.mjs</code>. Si cambió la salida esperada, ajusta también <code>listo</code>.',
-          puntos: ['Para una corrección en la misma hoja, conserva el identificador del capítulo y la posición del paso y de sus casillas. El motor usa esos datos para los enlaces y las marcas.'],
-          listo: ['La definición contiene la acción vigente y su comprobación en el mismo paso.'],
+          resumen: 'Edita el paso en <code>diarios/&lt;slug&gt;/diario.mjs</code>. Si el lector necesita reconocer una salida para continuar, descríbela junto a la instrucción.',
+          puntos: ['Conserva el identificador del capítulo y la posición del paso si quieres mantener su enlace.'],
         },
         {
           titulo: 'Regenera el libro corregido', donde: 'equipo',
           resumen: 'Desde la colección, compila con el nombre de la carpeta del diario. Este comando actualiza el libro que estás leyendo. Para otro volumen, cambia el último argumento.',
           cmds: [{ t: 'Desde la colección', c: 'node _motor/construir.mjs diario-de-proyecto' }],
-          listo: ['La consola muestra ✓ junto al manual del libro corregido y al índice de la estantería.'],
         },
         {
           titulo: 'Recorre la ruta de la corrección', donde: 'equipo',
           resumen: 'Vuelve a abrir el diario desde la sala. Sigue la situación y elige el paso corregido en el resumen del procedimiento. Usa el atajo <strong>Índice</strong> para regresar.',
-          listo: ['Has visto la instrucción y su comprobación actualizadas en la hoja esperada. El índice vuelve a mostrar el capítulo.'],
         },
       ],
       final: 'Corrección comprobada', finalTexto: 'La misma situación de la guía lleva a la receta revisada.',

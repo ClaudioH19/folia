@@ -203,6 +203,7 @@ ol.lista li::marker{font:800 .85em var(--mono);color:var(--gris)}
 .sello circle,.sello path{fill:none;stroke:var(--tinta);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
 .final h3{font:700 1.8rem var(--serif);margin:12px 0 6px}
 .final .checks-res{font:.9rem var(--sans);color:var(--gris);margin:6px 0 16px}
+.final .resumen-final{max-width:38ch;text-align:left;margin:12px auto 18px}
 
 /* ───────── figuras: diagramas, svg e imágenes ───────── */
 .fig{margin:0 0 16px}

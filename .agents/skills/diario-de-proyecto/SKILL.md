@@ -5,7 +5,7 @@ description: Crea o actualiza un manual HTML de proyecto con aspecto de diario a
 
 # Diario de proyecto
 
-Parte del manual, el repositorio o las notas que la persona quiera documentar. La unidad del diario es la situación del lector. Empieza por su estado observable, lo que quiere lograr y cómo sabrá que terminó. Enlaza cada entrada de la guía a una receta secuencial con los requisitos, una acción por paso y una comprobación observable. Conserva la información que sirva para decidir, actuar, evitar un error o verificar. Lleva las explicaciones de consulta a capítulos breves enlazados desde el paso pertinente. Distingue lo documentado, lo probado localmente y lo verificado en el entorno real.
+Parte del manual, el repositorio o las notas que la persona quiera documentar. Empieza por la situación observable del lector y lo que quiere lograr. Enlaza cada entrada de la guía a una receta secuencial con los requisitos y una acción principal por paso. Incluye una señal observable en el propio paso si ayuda a avanzar, elegir una rama o detectar un fallo. Omite «Listo cuando…» por defecto y úsalo solo si la persona lo pide o marcar varios puntos aporta valor. Conserva la información que sirva para decidir, actuar, evitar un error o verificar. Lleva las explicaciones de consulta a capítulos breves enlazados desde el paso pertinente. Distingue lo documentado, lo probado localmente y lo verificado en el entorno real.
 
 ## Composición
 
@@ -33,7 +33,7 @@ Desde cualquier carpeta, ejecuta `node "<ruta-a-la-skill>/scripts/nuevo.mjs" "<r
 
 1. Ejecuta `node scripts/nuevo.mjs "<carpeta-de-la-coleccion>" <slug>`. Crea el motor local y un ejemplo editable en `diarios/<slug>/diario.mjs`. En una colección existente, usa el motor que ya tiene. Si el diario ya existe, edita su definición directamente.
 2. Consulta el [contrato de las primitivas](assets/base/_motor/REGLAS-DEL-DIARIO.md) y el [diario de ejemplo](assets/base/_motor/plantilla/diario.mjs). El motor genera la sala interactiva desde los diarios de la colección y aplica el lector de folios a cada edición. Usa las primitivas necesarias para el contenido del proyecto.
-3. Sustituye el ejemplo por el manual real. En la guía de consulta usa `situaciones` para las entradas más frecuentes, con un verbo y un resultado reconocible. El índice ya enumera todos los capítulos. Titula cada hoja con la pregunta que responde o la acción que permite realizar. Agrupa operaciones cortas cuando comparten una comprobación. Mantén comandos, precauciones y comprobación junto al paso correspondiente.
+3. Sustituye el ejemplo por el manual real. En la guía usa `situaciones` para los casos más frecuentes, con un verbo y un resultado reconocible. Titula cada hoja con la pregunta que responde o la acción que permite realizar. Coloca comandos, ejemplos, figuras y precauciones junto al paso que los necesita. En una receta compleja puedes usar `resumenFinal` para recuperar decisiones, precauciones o la ruta siguiente en dos a cuatro viñetas.
 4. Usa `d.pasos` para procedimientos y `d.capitulo` para explicación o consulta. Enlaza las ramas por su identificador estable. Reserva los simuladores para procesos donde recorrer las etapas o elegir un fallo ayude a entender el resultado. En actualizaciones, conserva los enlaces y las marcas ya utilizadas cuando el contenido siga siendo el mismo.
 5. Desde la colección ejecuta `node _motor/construir.mjs <slug>`. Al preparar una colección para uso local, levanta o reutiliza el servidor de abajo y entrega su URL. Abre el diario desde la sala y prueba una ruta desde la guía de consulta, un paso desde el índice del procedimiento y la vuelta al índice. Revisa móvil y movimiento reducido si cambiaste el lector. Comprueba las descargas y resuelve los avisos del contenido real.
 
@@ -41,7 +41,7 @@ Entrega la ubicación del HTML y las comprobaciones pendientes. Para distribuir 
 
 ## Uso después de descargar
 
-Descomprime la carpeta `diario-de-proyecto` en `.agents/skills/` del proyecto donde usarás Codex. Pide, por ejemplo, «Usa $diario-de-proyecto para convertir el manual de este repositorio en un diario HTML». También puedes ejecutar los comandos anteriores directamente desde una copia descomprimida.
+Desde la carpeta de la skill, ejecuta `node scripts/instalar.mjs` para instalarla en tus carpetas personales de Codex y Claude Code. Añade `--agente=codex` o `--agente=claude` para elegir uno. Abre una sesión en el proyecto fuente e invoca `$diario-de-proyecto` en Codex o `/diario-de-proyecto` en Claude Code. También puedes ejecutar los comandos anteriores directamente desde una copia descomprimida.
 
 ## Abrir en localhost
 

@@ -1,6 +1,6 @@
 # Diarios de proyectos
 
-Una biblioteca local de manuales interactivos. Entra en una sala 3D, elige un libro y encuentra la receta que corresponde a tu situación. Cada diario combina pasos verificables, páginas de consulta, diagramas, notas y destacados.
+Una biblioteca local de manuales interactivos. Entra en una sala 3D, elige un libro y encuentra la receta que corresponde a tu situación. La skill aporta la interfaz y las primitivas para que el agente se concentre en escribir pasos, diagramas y páginas de consulta.
 
 ![Portada de Manuales, un libro de cuero verde delante de la sala de lectura](docs/portada.webp)
 
@@ -24,7 +24,7 @@ Abre [Manuales en localhost](http://127.0.0.1:4317/manuales/). El servidor guard
 ## Escribir un diario
 
 1. Crea un proyecto con `node .agents/skills/diario-de-proyecto/scripts/nuevo.mjs . mi-proyecto`.
-2. Edita `diarios/mi-proyecto/diario.mjs`. Describe primero las situaciones que llevan a una acción y enlázalas a recetas que terminan con una comprobación.
+2. Edita `diarios/mi-proyecto/diario.mjs`. Empieza por las situaciones del lector y enlaza cada una a la receta correspondiente. Incluye resultados esperados cuando guíen la acción siguiente y reserva las viñetas finales para recetas que convenga poder retomar.
 3. Ejecuta `node _motor/construir.mjs mi-proyecto` y abre el diario desde la sala.
 
 Consulta las [reglas editoriales y las primitivas](./_motor/REGLAS-DEL-DIARIO.md) y el [diario de ejemplo](./_motor/plantilla/diario.mjs).
@@ -33,26 +33,33 @@ Consulta las [reglas editoriales y las primitivas](./_motor/REGLAS-DEL-DIARIO.md
 
 La carpeta abierta en el agente es el **proyecto fuente**. La **colección de destino** es la que contiene `_motor/` y `diarios/`. El agente lee la fuente y crea el diario en la colección.
 
-Para tener la skill disponible en cualquier proyecto local, copia su carpeta completa desde `.agents/skills/diario-de-proyecto/` de esta colección a una de estas ubicaciones:
+### Instalar la skill en un comando
+
+Pega el bloque completo en PowerShell. Requiere Git, Node.js 18 o posterior y una cuenta con acceso al repositorio privado. Instala la skill con el generador, el lector y sus recursos para ambos agentes.
+
+```powershell
+& {
+  $temporal = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
+  $copiaDiarios = Join-Path $temporal ("diarios-skill-" + [guid]::NewGuid())
+  try {
+    git clone --depth 1 https://github.com/ClaudioH19/diarios-de-proyectos.git $copiaDiarios
+    if ($LASTEXITCODE -ne 0) { throw 'No se pudo clonar el repositorio de la skill.' }
+    node (Join-Path $copiaDiarios '.agents/skills/diario-de-proyecto/scripts/instalar.mjs')
+    if ($LASTEXITCODE -ne 0) { throw 'No se pudo instalar la skill.' }
+  } finally {
+    if ((Split-Path -Parent $copiaDiarios) -eq $temporal.TrimEnd([IO.Path]::DirectorySeparatorChar) -and (Test-Path -LiteralPath $copiaDiarios)) {
+      Remove-Item -LiteralPath $copiaDiarios -Recurse -Force
+    }
+  }
+}
+```
+
+Repite el comando para actualizar. Si ya tienes el repositorio clonado, ejecuta `node .agents/skills/diario-de-proyecto/scripts/instalar.mjs` desde su raíz. Si recibiste el ZIP, descomprímelo y ejecuta `node scripts/instalar.mjs` desde la carpeta `diario-de-proyecto`. Añade `--agente=codex` o `--agente=claude` al comando de Node para instalar solo en ese agente.
 
 | Agente | Carpeta personal | Invocación |
 | --- | --- | --- |
 | Codex | `~/.agents/skills/diario-de-proyecto/` | `$diario-de-proyecto` |
 | Claude Code | `~/.claude/skills/diario-de-proyecto/` | `/diario-de-proyecto` |
-
-Para instalarla desde GitHub, clona el repositorio y copia la carpeta completa de la skill. Así se conservan los scripts, el generador, las primitivas, el lector y los recursos de la sala. Ejecuta en PowerShell:
-
-```powershell
-git clone https://github.com/ClaudioH19/diarios-de-proyectos.git
-$skill = (Resolve-Path '.\diarios-de-proyectos\.agents\skills\diario-de-proyecto').Path
-foreach ($directorio in @('.agents/skills', '.claude/skills')) {
-  $destino = Join-Path $env:USERPROFILE "$directorio/diario-de-proyecto"
-  New-Item -ItemType Directory -Path $destino -Force | Out-Null
-  Get-ChildItem -LiteralPath $skill -Force | Copy-Item -Destination $destino -Recurse -Force
-}
-```
-
-Si ya tienes el repositorio en tu equipo, apunta `$skill` a su carpeta `.agents/skills/diario-de-proyecto`. Para actualizar la instalación personal, ejecuta `git pull` en el repositorio clonado y vuelve a copiar esa carpeta.
 
 Abre una sesión en el otro proyecto, invoca la skill y pide algo así:
 

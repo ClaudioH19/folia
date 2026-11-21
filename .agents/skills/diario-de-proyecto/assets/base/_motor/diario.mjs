@@ -32,7 +32,7 @@ export function construirDiario(def, raiz = '..') {
   });
   if (errores.length) return { html: '', avisos, errores };
 
-  const ctx = { sims: {}, simIcons: new Set(), fig: 0, dg: 0, imgs: [] };
+  const ctx = { sims: {}, simIcons: new Set(), fig: 0, dg: 0, imgs: [], capitulosConMarcas: new Set() };
 
   // ───── expandir capítulos en hojas ─────
   const hojas = [];
@@ -52,7 +52,7 @@ export function construirDiario(def, raiz = '..') {
         const tit = grupo === 1 ? pasos[i].titulo : `Pasos ${i + 1}–${Math.min(total, i + grupo)}`;
         lista.push({ titulo: tit, cols: c.cols, bloques: gr, fase: pasos[i].fase || '', esPaso: true });
       }
-      lista.push({ titulo: 'Capítulo terminado', cols: '1', bloques: [{ t: 'final', capId: c.id, texto: c.finalTexto, final: c.final }], esFin: true });
+      lista.push({ titulo: 'Capítulo terminado', cols: '1', bloques: [{ t: 'final', texto: c.finalTexto, final: c.final, resumen: c.resumenFinal }], esFin: true });
     } else lista = c.hojas.map((h) => ({ ...h }));
     lista.forEach((h, k) => {
       hojas.push({ ...base, id: k === 0 ? c.id : `${c.id}-${k + 1}`, k, m: lista.length, apertura: k === 0, def: c, ...h });
@@ -71,14 +71,14 @@ export function construirDiario(def, raiz = '..') {
   todas.forEach((h, i) => { h.num = i + 1; });
 
   // ───── bloques ─────
-  function checklistHtml(items, titulo, hojaId) {
-    return `<div class="listo"><h4>✓ ${titulo}</h4>${items.map((x, k) => `<label><input type="checkbox" data-ck="${hojaId}:${k}"><span>${x}</span></label>`).join('')}</div>`;
+  function checklistHtml(items, titulo, h, clase = 'listo') {
+    ctx.capitulosConMarcas.add(h.cap);
+    return `<div class="${clase}"><h4>✓ ${esc(titulo)}</h4>${items.map((x, k) => `<label><input type="checkbox" data-ck="${h.id}:${k}"><span>${x}</span></label>`).join('')}</div>`;
   }
   function pasoHtml(b, h) {
     const p = b.p;
     if (!p.titulo || !p.resumen) err(`paso sin título o resumen en el capítulo «${h.cap}»`);
     if (!ACTORES[p.donde]) err(`paso «${p.titulo}»: «donde» debe ser uno de ${Object.keys(ACTORES).join(', ')}`);
-    if (!p.listo || !p.listo.length) aviso(`paso «${p.titulo}» (${h.cap}) no tiene «listo cuando…»: cada paso debe poder comprobarse`);
     const [nombre, ic] = ACTORES[p.donde] || [p.donde, 'archivo'];
     let o = `<section class="b paso"><div class="paso-cab"><span class="paso-n">Paso ${b.n} de ${b.total}</span><span class="donde">${ico(ic)}${esc(nombre)}</span>${p.opcional ? '<span class="donde opc">Opcional</span>' : ''}${p.tiempo ? `<span class="tiempo">${esc(p.tiempo)}</span>` : ''}</div>`;
     if (b.mostrarTitulo) o += `<h3 class="sub">${esc(p.titulo)}</h3>`;
@@ -86,7 +86,7 @@ export function construirDiario(def, raiz = '..') {
     if (p.puntos) o += `<ul class="lista">${p.puntos.map((x) => `<li>${x}</li>`).join('')}</ul>`;
     (p.cmds || []).forEach((c) => { o += cmdHtml(c.c, c.t); });
     if (p.aviso) o += avisoHtml(p.aviso.tipo || 'info', p.aviso.texto);
-    if (p.listo) o += checklistHtml(p.listo, 'Listo cuando…', h.id);
+    if (p.listo?.length) o += checklistHtml(p.listo, 'Listo cuando…', h);
     return o + '</section>';
   }
   const cmdHtml = (c, titulo = 'Terminal') => `<div class="cmd"><header><span>${esc(titulo)}</span><button type="button" data-copiar>Copiar</button></header><pre>${esc(c)}</pre></div>`;
@@ -103,7 +103,7 @@ export function construirDiario(def, raiz = '..') {
       case 'cita': return `<blockquote class="${cl} cita">${b.html}${b.autor ? `<cite>— ${esc(b.autor)}</cite>` : ''}</blockquote>`;
       case 'orn': return `<div class="${cl} orn" aria-hidden="true"><span></span></div>`;
       case 'codigo': return `<div class="${cl} cmd"><header><span>${esc(b.titulo)}</span><button type="button" data-copiar>Copiar</button></header><pre>${esc(b.c)}</pre></div>`;
-      case 'checklist': return `<div class="${cl} listo"><h4>✓ ${esc(b.titulo)}</h4>${b.items.map((x, k) => `<label><input type="checkbox" data-ck="${h.id}:${k}"><span>${x}</span></label>`).join('')}</div>`;
+      case 'checklist': return checklistHtml(b.items, b.titulo, h, `${cl} listo`);
       case 'tabla': return `<div class="${cl} tabla"><table><thead><tr>${b.cab.map((x) => `<th>${x}</th>`).join('')}</tr></thead><tbody>${b.filas.map((f) => `<tr>${f.map((x) => `<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
       case 'diagrama': {
         ctx.dg += 1; ctx.fig += 1;
@@ -137,7 +137,13 @@ export function construirDiario(def, raiz = '..') {
         });
         return o + '</ol>';
       }
-      case 'final': return `<div class="b final ancho">${SELLO}<h3>${esc(b.final)}</h3>${b.texto ? `<p class="p">${b.texto}</p>` : ''}<p class="checks-res" data-checks-de="${b.capId}"></p><div class="btns"><button class="btn solido" type="button" data-ir="#indice">Volver al índice</button><button class="btn suave" type="button" data-reiniciar="${b.capId}">↺ Borrar mis marcas de este capítulo</button></div></div>`;
+      case 'final': {
+        const conMarcas = ctx.capitulosConMarcas.has(h.cap);
+        const resumen = b.resumen?.length ? `<ul class="lista resumen-final">${b.resumen.map((item) => `<li>${item}</li>`).join('')}</ul>` : '';
+        const marcas = conMarcas ? `<p class="checks-res" data-checks-de="${h.cap}"></p>` : '';
+        const reiniciar = conMarcas ? `<button class="btn suave" type="button" data-reiniciar="${h.cap}">↺ Borrar mis marcas de este capítulo</button>` : '';
+        return `<div class="b final ancho">${SELLO}<h3>${esc(b.final)}</h3>${b.texto ? `<p class="p">${b.texto}</p>` : ''}${resumen}${marcas}<div class="btns"><button class="btn solido" type="button" data-ir="#indice">Volver al índice</button>${reiniciar}</div></div>`;
+      }
       default: err(`bloque desconocido «${b.t}» en la hoja ${h.id}`); return '';
     }
   }

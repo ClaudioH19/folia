@@ -65,8 +65,8 @@ export const d = {
 
   // capítulo de procedimiento: cada paso es una hoja. pasos: [{ fase?, titulo, donde, tiempo?, opcional?, resumen, puntos?, cmds?:[{t,c}], aviso?:{tipo,texto}, listo?:[...] }]
   // porHoja: pasos por hoja (1 por defecto; 2 solo si los pasos son muy cortos)
-  pasos: ({ id, posit, etiqueta, titulo, bajada = '', nota = '', pasos, porHoja = 1, final, finalTexto = '', antes = [], cols = 1, herramientas }) => {
+  pasos: ({ id, posit, etiqueta, titulo, bajada = '', nota = '', pasos, porHoja = 1, final, finalTexto = '', resumenFinal, antes = [], cols = 1, herramientas }) => {
     if (!id || !posit || !etiqueta || !titulo) falta('id, posit, etiqueta y titulo', 'pasos');
-    return { tipo: 'pasos', id, posit, etiqueta, titulo, bajada, nota, pasos: lista(pasos, `pasos(${id}).pasos`), porHoja, final: final || '¡Listo!', finalTexto, antes, cols, herramientas };
+    return { tipo: 'pasos', id, posit, etiqueta, titulo, bajada, nota, pasos: lista(pasos, `pasos(${id}).pasos`), porHoja, final: final || '¡Listo!', finalTexto, resumenFinal: resumenFinal == null ? [] : lista(resumenFinal, `pasos(${id}).resumenFinal`), antes, cols, herramientas };
   },
 };

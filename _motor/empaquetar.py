@@ -7,7 +7,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 raiz = Path(__file__).resolve().parents[1]
 nombre = "diario-de-proyecto"
 skill = raiz / ".agents" / "skills" / nombre
-archivos = ["SKILL.md", "scripts/nuevo.mjs"]
+archivos = ["SKILL.md", "scripts/nuevo.mjs", "scripts/instalar.mjs"]
 motor = (
     "bloques.mjs", "construir.mjs", "estante.mjs", "diagrama.mjs", "diario.mjs",
     "emblemas.mjs", "iconos.mjs", "verificar.mjs", "servir.mjs", "empaquetar.py", "REGLAS-DEL-DIARIO.md",

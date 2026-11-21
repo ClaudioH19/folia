@@ -31,12 +31,10 @@ export default {
       antes: [d.aviso('info', 'Necesitas Node.js 18 o superior y una consola abierta en la raíz de la colección.')],
       pasos: [
         { titulo: 'Genera los diarios', donde: 'equipo',
-          resumen: 'Ejecuta el generador desde la raíz de la colección.',
-          cmds: [{ t: 'En tu equipo', c: 'node _motor/construir.mjs' }],
-          listo: ['La consola muestra el archivo manual.html del proyecto y el índice de la colección.'] },
+          resumen: 'Ejecuta el generador desde la raíz de la colección. Si informa de un error, corrige el archivo que indica antes de abrir la sala.',
+          cmds: [{ t: 'En tu equipo', c: 'node _motor/construir.mjs' }] },
         { titulo: 'Abre el diario desde la sala', donde: 'equipo',
-          resumen: 'Abre index.html en el navegador y elige el lomo del proyecto.',
-          listo: ['Se abre la portada del diario con el nombre del proyecto.'] },
+          resumen: 'Abre index.html en el navegador y elige el lomo del proyecto.' },
       ],
       final: 'Diario disponible', finalTexto: 'Puedes volver a la sala con el icono del estante.',
     }),
@@ -59,7 +57,7 @@ export default {
         ] }),
         d.hoja({ titulo: 'Código, listas de comprobación y tablas', bloques: [
           d.codigo('git status\ngit log --oneline -5', { titulo: 'En tu equipo' }),
-          d.checklist(['Primera comprobación.', 'Segunda comprobación.']),
+          d.checklist(['Comprueba que tienes acceso a la copia de respaldo.', 'Anota la versión a la que vas a volver.'], { titulo: 'Antes de restaurar' }),
           d.tabla({ cab: ['Elemento', 'Dónde', 'Si falta'], filas: [['<code>a.json</code>', 'Bóveda', 'Se regenera'], ['<code>b.json</code>', 'Servidor', 'Pérdida de datos']] }),
         ] }),
         d.hoja({ titulo: 'Un diagrama', cols: 1, bloques: [d.diagrama({
